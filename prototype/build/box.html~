@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=utf-8>
+    <title>What a box!</title>
+    <link rel=stylesheet href=style.css type="text/css">
+    <style>
+h2 {font-size:100%;}
+img {width:100%;}
+
+.box {cursor:pointer;padding:1px 0;}
+.box:hover,
+.group:hover{background:#fcc url(del.png) 50% 50% no-repeat;}
+.box:hover * {opacity:.5;}
+.empty{height:2em;background:#efe;}
+.empty:hover{background:#cfc url(add.png) 50% 50% no-repeat;}
+
+#toolbox {display:none;text-align:left;width:10em;margin:0 auto;border:1px solid #ccc;background:#fff;padding:15px 5px 5px;position:absolute;margin-left:-5em;margin-top:-1em;z-index:2;}
+#toolbox ul {margin:0;padding:0;list-style:none;width:100%;overflow:hidden;}
+#toolbox li {display:inline;}
+#toolbox li a {display:block;margin-right:.2em;padding:5px;border:1px solid #ccc;background:#555;color:#fff;text-decoration:none;}
+
+#hdrag {
+    height:0px;
+    cursor:ew-resize;
+    background:green;
+    position:absolute;
+    opacity:0.5;
+}
+
+    </style>
+</head>
+<body>
+<h1>Box time</h1>
+<div id="toolbox">
+    <ul>
+        <li><a href="#lolcat">lol cat</a></li>
+        <li><a href="#loldog">lol dog</a></li>
+        <li><a href="#yourmom">your mom</a></li>
+        <li><a href="#yourdad">your dad</a></li>
+        <li><a href="#splitter">splitter</a></li>
+    </ul>
+</div>
+<div class="container" width="960px">
+    <div id="hdrag"></div>
+    <div class="c12 first"><div class="empty box"></div></div>
+</div>
+<div style="display:none">
+    <div id="splitter"></div>
+    <div id="lolcat"><img src="lolcat.jpg"></div>
+    <div id="loldog"><img src="loldog.jpg"></div>
+    <div id="yourmom"><h1>Your mom</h1></div>
+    <div id="yourdad"><h2>Your dad</h2></div>
+</div>
+<script src="jquery-1.3.2.min.js"></script>
+<script>
+var current;
+
+$("#toolbox").click(function(event) {
+    var box = $(event.target).closest("a");
+    if(box.length && box.attr("href").substring(0, 1) == "#") {
+        var elem = $(box.attr("href"));
+        if(elem.length) {
+            if(elem.attr("id") !== "splitter") {
+                $('<div class="box">'+elem.html()+'</div>').insertBefore(current);
+            } else {
+                var parent = current.parent();
+                width = parseInt(parent[0].className.match(/\bc([0-9]+)\b/)[1]);
+                if(width > 1) {
+                    left = Math.round(width / 2);
+                    right = width - left;
+                    $('<div class="group first">'+
+                        '<div class="c'+left+' first"><div class="empty box"></div></div>'+
+                        '<div class="c'+right+'"><div class="empty box"></div></div>'+
+                    '</div>').insertBefore(current);
+                } else {
+                    console.error("column is too small");
+                }
+            }
+        }
+
+        event.preventDefault();
+    }
+
+    $(this).hide();
+    $(".container").css("opacity", 1);
+    current = null;
+});
+
+$(".container").click(function(event) {
+    var box = $(event.target).closest(".box");
+    if(box.length) {
+        if(box.hasClass("empty")) {
+            $("#toolbox").show()
+                .css("left", event.clientX + window.scrollX)
+                .css("top", event.clientY + window.scrollY);
+            $(this).css("opacity", .5);
+            current = box;
+        } else {
+            if(box.parent()[0].childNodes.length == 1) {
+                box.html('').addClass("empty");
+            } else {
+                box.remove();
+            }
+        }
+    } else {
+        var group = $(event.target).closest(".group");
+        if(group.length) {
+            group.remove();
+        }
+    }
+});
+
+var column_width = 81;
+var column_spacing = 12;
+var magnet_width = 0.20; // in percent
+var hdrag_width = 20;
+var hdrag_offset = ((hdrag_width + column_spacing) / 2);
+    
+var hdrag = $('#hdrag');
+hdrag.width(hdrag_width);
+var isDragMouseDown = false;
+var container = $('.container');
+var current_hcontainer = false;
+var start_col = false;
+
+function updateHDrag(e) {
+    var pos = getMousePosition(e);
+    var mouse_x = pos.x - current_hcontainer.offsetLeft;
+    var col_num = Math.round(mouse_x/column_width);        
+    var delta = Math.abs(mouse_x/column_width - col_num);
+    if(delta < magnet_width) {
+        var x_to_be = (col_num * (column_width)) + current_hcontainer.offsetLeft - hdrag_offset;
+        hdrag.css('left', x_to_be + 'px');
+    } else {
+        hdrag.css('left', (pos.x - hdrag_width/2) + 'px');
+    }
+    return col_num;
+}
+
+// find the 2 cells near the mouse position
+// return false in case of failure
+function find2Cells() {
+    var max_val = (start_col * column_width);
+    var val = 0;
+    var first_el = false;
+    var second_el = false;
+    var divs = $(current_hcontainer).find('> div')
+    var el = false;
+    for(var i=0; i<divs.length; i++) {
+        el = divs[i];
+        val += $(el).width() + column_spacing;
+        if(val=max_val) {
+            if(divs.length > i+1) {
+                first_el = el;
+                second_el = divs[i+1];
+            }
+            break;
+        }
+    };
+    if(first_el && second_el)
+        return [first_el, second_el];
+    return false;
+}
+
+hdrag.mousedown(function(e) {
+    isDragMouseDown = true;
+    return false;
+});
+
+function n_col(el) {
+    return parseInt(el.className.match(/\bc([0-9]+)\b/)[1])
+}
+
+container.mouseup(function(e) {
+    hdrag.hide();
+    if(isDragMouseDown) {
+        end_col = updateHDrag(e);
+        var diff = end_col - start_col;
+        var els = find2Cells();
+        if(els) {
+            var classes = [n_col(els[0]), n_col(els[1])];
+            var el_c = [classes[0] + diff, classes[1] - diff];
+
+            function find_max_reduce(el) {
+                var max_reduce = n_col(el) - 1;
+                function groupe_max_reduce(i, group) {
+                    var group_reduce = 0
+                    $(group).find('> div').each(function(i, cell) {
+                        var n = n_col(cell);
+                        var reducable = n - 1;
+                        group_reduce += reducable;
+                    });
+                    if(max_reduce === false)
+                        max_reduce = group_reduce;
+                    else
+                        max_reduce = Math.min(group_reduce, max_reduce);
+                }
+                $(el).find('.group').each(groupe_max_reduce);
+                return max_reduce;
+            };
+            
+            // get groups and reduce cells to fit the changes
+            function reduce(el) {
+                var max_reduce = find_max_reduce(el);
+                console.log("max-reduce : " + max_reduce);
+                var effective_reduction = Math.min(Math.abs(diff), max_reduce);
+                console.log(effective_reduction);
+                $(el).find('.group').each(function(i, group) {
+                    var d = effective_reduction;
+                    $(group).find('> div').each(function(i, cell) {
+                        var n = n_col(cell);
+                        var reducable = n - 1;
+                        if(reducable > 0) {
+                            var reduce = Math.min(d, reducable);
+                            if(reduce>0) {
+                                d = d - reduce;
+                                $(cell).removeClass('c'+n);
+                                $(cell).addClass('c'+(n-reduce));
+                            }
+                        }
+                    });
+                });
+                return effective_reduction;
+            };
+            
+            // get groups and grow the first cell
+            function grow(el, grow) {
+                var d = grow;
+                if(grow > 0) {
+                    $(el).find('.group').each(function(i, group) {
+                        var first_cell = $(group).find('> div')[0];
+                        var n = n_col(first_cell);
+                        $(first_cell).removeClass('c'+n);
+                        $(first_cell).addClass('c'+(n+d));
+                    });
+                }
+            };
+            
+            if(diff < 0) {
+                var effective_reduction = reduce(els[0]);
+                console.log(effective_reduction)
+                grow(els[1], effective_reduction);
+                $(els[0]).removeClass('c'+classes[0]).addClass('c'+(classes[0]-effective_reduction));
+                $(els[1]).removeClass('c'+classes[1]).addClass('c'+(classes[1]+effective_reduction));
+            } else {
+                var effective_reduction = reduce(els[1]);
+                grow(els[0], effective_reduction);
+                $(els[0]).removeClass('c'+classes[0]).addClass('c'+(classes[0]+effective_reduction));
+                $(els[1]).removeClass('c'+classes[1]).addClass('c'+(classes[1]-effective_reduction));
+            }
+        }
+        isDragMouseDown = false;
+    }
+});
+
+// when the mouse is moved while the mouse button is pressed
+container.mousemove(function(e) {
+    if(isDragMouseDown) {
+        updateHDrag(e);
+    }
+    return false;
+});
+    
+container.mouseover(function(e) {
+    if($(e.target).hasClass('group')) {
+        current_hcontainer = e.target;
+        start_col = updateHDrag(e);
+        hdrag.height($(current_hcontainer).height());
+        hdrag.css('top', current_hcontainer.offsetTop + 'px');
+        hdrag.show();
+        return false;
+    }
+    if($(e.target).hasClass('group')) {
+        if(!isDragMouseDown) {
+            hdrag.hide();
+        }   
+    }
+});
+
+// returns the mouse (cursor) current position
+var getMousePosition = function(e) {
+    if (e.pageX || e.pageY) {
+        var posx = e.pageX;
+        var posy = e.pageY;
+    }
+    else if (e.clientX || e.clientY) {
+        var posx = e.clientX
+        var posy = e.clientY
+    }
+    return {'x': posx, 'y': posy};
+};
+
+</script>
+</body>
+</html>

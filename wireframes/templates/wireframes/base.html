@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Language" content="en" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Wireframe online</title>
+<script type="text/javascript" src="{{MEDIA_URL}}wireframes/js/jquery.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}wireframes/js/commands.jquery.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}wireframes/js/drag.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}wireframes/js/wireframe.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}wireframes/js/ui.core.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}wireframes/js/ui.selectable.js"></script>
+<link rel="stylesheet" href="{{MEDIA_URL}}wireframes/css/style.css" type="text/css" media="screen" title="" />
+<style>
+{% block extra_css %}{% endblock %}
+</style>
+</head>
+<body>
+
+<div id="header">
+    {% block header %}
+
+    {% endblock %}
+</div>
+
+<div id="content" class="{% block body_class %}{% endblock %}">
+{% block content %}
+
+{% endblock %}
+</div>
+</body>
+</html>

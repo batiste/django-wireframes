@@ -1,0 +1,67 @@
+[
+  {
+    "pk": 1, 
+    "model": "wireframes.component", 
+    "fields": {
+      "name": "User List", 
+      "author": null, 
+      "javascript": "{\"display\": function(content) {\r\n    users = content.split('\\n');\r\n    result = \"\";\r\n    for(user_index in users) {\r\n        if(users[user_index]) {\r\n            infos = users[user_index].split(':');\r\n            result += '<li><span class=\"avatar\" />' + infos[0] + '<br/>' + infos[1] + '</li>';\r\n        }\r\n    };\r\n    return '<ul>' + result + '</ul>'\r\n}};", 
+      "creation_date": "2009-11-06 02:32:11", 
+      "project": null, 
+      "default_content": "Robert Miguel: on the plane for Paris <a href=\"\">paris</a>\r\n\r\nDaniel Schluss: on his way to the backery\r\nRick Astley: Never gonna give you up", 
+      "css": ".avatar { float:left; width:50px; height:50px; border:1px #22e solid; margin-right:5px;}\r\nli {overflow:hidden; margin-bottom:5px; }"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "wireframes.component", 
+    "fields": {
+      "name": "Search box", 
+      "author": null, 
+      "javascript": "{\"display\": function(content) {\r\n return '<label>Search<input type=\"text\" /></label><input type=\"submit\">';\r\n}};", 
+      "creation_date": "2009-05-10 12:46:06", 
+      "project": null, 
+      "default_content": "", 
+      "css": ""
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "wireframes.component", 
+    "fields": {
+      "name": "Horizontal Menu", 
+      "author": null, 
+      "javascript": "{\"display\": function(content) {\r\n    users = content.split(',');\r\n    result = \"\";\r\n    for(user_index in users) {\r\n        if(users[user_index]) {\r\n            result += '<li><a href=\"#\">' + users[user_index] + '</a></li>';\r\n        }\r\n    };\r\n    return '<ul>' + result + '</ul>'\r\n}};", 
+      "creation_date": "2009-05-10 14:59:52", 
+      "project": null, 
+      "default_content": "item1, item2, item3", 
+      "css": "ul {\r\n   margin:0;\r\n   padding:0;\r\n}\r\n\r\nul li {\r\n   display:inline;\r\n}\r\n\r\nul li a {\r\n   padding:6px 15px;\r\n   margin-right:10px;\r\n   background:#eee;\r\n   float:left;\r\n}"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "wireframes.component", 
+    "fields": {
+      "name": "Form", 
+      "author": null, 
+      "javascript": "{\"display\": function(content) {\r\n    inputs = content.split(\"\\n\");\r\n\r\n    var is_right_aligned = function(line) {\r\n        var ra = line.match('^   ')\r\n        if(ra)\r\n            return true;\r\n            \r\n    }\r\n    var result = \"\";\r\n    for(input_index in inputs) {\r\n        if(inputs[input_index]) {\r\n\r\n            var line = inputs[input_index];\r\n            var find_syntax = true;\r\n            if(is_right_aligned(line))\r\n                result += '<li style=\"text-align:right\">'\r\n            else\r\n                result += '<li>'\r\n            while(find_syntax) {\r\n                find_syntax = false;\r\n                var select_rx  = line.match('([^:]+):(.*)')\r\n\r\n                if(select_rx) {\r\n                    var opts = select_rx[2].split(',');\r\n                    result = result + '<label>'+select_rx[1]+'</label><select>';\r\n                    for(opt_index in opts)\r\n                    result += '<option>'+opts[opt_index]+'</option>';\r\n                    result = result+'</select></li>';\r\n                    line = line.replace(select_rx[0], '');\r\n                    find_syntax = true\r\n                };\r\n\r\n                var button_rx = line.match('\\\\{([^\\\\}]+)\\\\}');\r\n\r\n                if(button_rx) {\r\n                    result += '<input type=button value=\"'+button_rx[1]+'\">';\r\n                    line = line.replace(button_rx[0], '');\r\n                    find_syntax = true\r\n                }\r\n                var textarea_rx = line.match('\\\\[([^\\\\]]+)\\\\]');\r\n\r\n                if(textarea_rx) {\r\n                    result += '<textarea>'+textarea_rx[1]+'</textarea>';\r\n                    line = line.replace(textarea_rx[0], '');\r\n                    find_syntax = true\r\n                };\r\n\r\n            };\r\n            if(!select_rx && !button_rx && !textarea_rx && $.trim(line))\r\n                result += '<label>'+line+'</label><input type=text>';\r\n            result += '</li>'\r\n        }\r\n    };\r\n    return '<ul>' + result + '</ul>'\r\n}};", 
+      "creation_date": "2009-11-06 02:28:29", 
+      "project": null, 
+      "default_content": "username\r\npassword\r\ncountry: USA, UK, Norway,d\r\n[some text ]\r\n   {create an account} ", 
+      "css": "label{ display:block }\r\nul { margin:1em; padding:0 }\r\nli { list-style:none; margin-bottom:0.5em; }\r\n"
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "wireframes.component", 
+    "fields": {
+      "name": "Lorem ipsum", 
+      "author": null, 
+      "javascript": "{\"display\": function(content) {\r\n    lorem = content.split(\"*\");\r\n    var result = '<p>'+lorem[0]+'</p>';\r\n    if(lorem.length) {\r\n       var mult = parseInt(lorem[1]);\r\n       for(var i=1; i<mult; i++)\r\n           result += '<p>'+lorem[0]+'</p>';\r\n    }\r\n    return result;\r\n}};", 
+      "creation_date": "2009-11-06 02:32:49", 
+      "project": null, 
+      "default_content": "lorem ispum lorem disum anem. Liloneum a inea lirem. Da upso irredea celil. * 3", 
+      "css": "p { margin:1em }"
+    }
+  }
+]

@@ -1,0 +1,79 @@
+{% extends "wireframes/base.html" %}
+{% load i18n %}
+{% block header %}
+<h1>Wireframe</h1>
+<p>Create a new wireframe</p>
+{% endblock %}
+
+
+{% block content %}
+<form action="" method="post" id="create-wireframe">
+<fieldset>
+    <legend>Create a new wireframe</legend>
+    {{ form.name.errors }}
+    <p><label for="id_name">Wireframe name</label> {{ form.name }}</p>
+    {{ form.grid_width.errors }}
+    <p class="number"><label for="id_grid_width">Columns width</label> {{ form.grid_width }}px</p>
+    {{ form.grid_spacing.errors }}
+    <p class="number"><label for="id_grid_spacing">Columns spacing</label> {{ form.grid_spacing }}px</p>
+    {{ form.grid_columns.errors }}
+    <p class="number"><label for="id_grid_columns">Number of columns</label> {{ form.grid_columns }}</p>
+    <p class="number"><label for="total-width">Total width</label> <input id="total-width" type="text" disabled="disabled" class="textinput" name="total-width" />px</p>
+    <p><input type="submit" value="{% trans 'Create this wireframe' %}" class="submit"></p>
+    </fieldset>
+</form>
+
+<div id="rule">
+    <h2>Grid preview</h2>
+    <div style="width:795px" id="width-800">800 px</div>
+    <div style="width:219px" id="width-1024">1024 px</div>
+    <div style="width:171px" id="width-1200">1200 px</div>
+</div>
+
+<div id="grid-preview"></div>
+
+<script type="text/javascript">
+$(document).ready( function() {
+
+    var drawGrid = function() {
+        var gv = $('#grid-preview');
+        gv.empty();
+        var parseInput = function (query, min, max) {
+            var val = parseInt($(query).val());
+            if( isNaN( val) )
+                val = 0
+            if(max && val > max)
+                val=max;
+            if(min && val < min)
+                val=min;
+            $(query).val(val)
+            return val;
+        }
+        var nb_columns = parseInput('#id_grid_columns', 1, 100);
+        var columns_width = parseInput('#id_grid_width', 12);
+        var columns_spacing = parseInput('#id_grid_spacing', 0);
+        var total = nb_columns * columns_width + (nb_columns-1) * columns_spacing;
+        $('#total-width').val(total);
+        for(var i=0; i<nb_columns-1;i++) {
+            gv.append($('<div class="columns" style="width:'+columns_width+'px"></div><div class="spacing" style="width:'+columns_spacing+'px"></div>'));
+        }
+        gv.append($('<div class="columns" style="width:'+columns_width+'px"></div>'));
+        var display_warning = function (w) {
+            if(total > w-50)
+                $('#width-'+w).addClass('warning');
+            else
+                $('#width-'+w).removeClass('warning');
+        }
+        display_warning(800);
+        display_warning(1024);
+        display_warning(1200);
+    }
+    drawGrid();
+    $('input').change(drawGrid);
+
+});
+</script>
+
+
+
+{% endblock %}

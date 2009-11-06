@@ -1,0 +1,29 @@
+html, body, div {margin:0;padding:0;}
+body {text-align:center;font-family:Arial,sans-serif;}
+.container {overflow:hidden;width:960px;margin:0 auto;text-align:left;}
+.row {overflow:hidden;}
+.group {overflow:hidden;}
+.c1,
+.c2,
+.c3,
+.c4,
+.c5,
+.c6,
+.c7,
+.c8,
+.c9,
+.c10,
+.c11 {margin-left:12px;float:left;}
+.c1 {width:69px}
+.c2 {width:150px;}
+.c3 {width:231px}
+.c4 {width:312px;}
+.c5 {width:393px;}
+.c6 {width:474px;}
+.c7 {width:555px;}
+.c8 {width:636px;}
+.c9 {width:717px;}
+.c10 {width:798px;}
+.c11 {width:879px;}
+.first {margin-left:0;clear:left;}
+.box {margin-bottom:12px;-moz-outline:3px solid #ddd;background:#fff;}

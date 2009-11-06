@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block header %}
+<h1>Wireframe</h1>
+<p class="breadcrumb">Project <strong>{{ project.name }}</strong> &raquo; Create a new wireframe</p>
+{% endblock %}
+
+{% block content %}
+<form action="." method="post" class="simpleform">
+<fieldset>
+    <legend>Create a new wireframe</legend>
+    {{ form.as_p }}
+    <p><input type="submit" value="{% trans 'Create this wireframe' %}" class="submit"></p>
+    </fieldset>
+</form>
+{% endblock %}

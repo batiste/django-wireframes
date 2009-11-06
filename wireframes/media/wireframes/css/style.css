@@ -1,0 +1,279 @@
+body {
+    background: #fff;
+    margin: 0;
+    padding: 0;
+    font-family: Arial;
+    font-size: 12px;
+}
+
+h1 {display:inline;}
+
+p, h1, h2, h3, ul, li {
+    margin:0;
+    padding:0;
+    font-weight:normal;
+    list-style:none;
+}
+
+#header {
+    background:#aaf;
+    padding:10px;
+}
+
+.breadcrumb {
+    font-size:14px;
+    line-height:20px;
+}
+
+.breadcrumb strong {
+    font-size:18px;
+}
+
+#content {
+    padding:10px;
+}
+
+#content {
+    padding:20px;
+}
+
+/* forms */
+
+form, input {
+    font-size:14px;
+    font-family: Arial;
+}
+
+form p {
+    margin-bottom:5px;
+}
+
+#menu input {
+    padding:1px;
+    /*border:1px #999 solid;*/
+}
+
+#create-wireframe label {
+    float:left;
+    width:10em;
+    padding-top:3px;
+    padding-right:5px;
+    text-align:right;
+}
+
+.simpleform fieldset {
+    width:35em;
+    padding:1em;
+    border:1px #ccc solid;
+}
+
+legend {
+    font-size:19px;
+}
+
+.textinput {
+   width:20em;
+}
+
+.number input {
+    width:4em;
+    text-align:right;
+}
+
+.submit {
+    font-size:20px;
+    float:right;
+}
+
+.errorlist {
+    color:red;
+    margin-left:10em;
+    padding:0;
+}
+
+/* grid view */
+
+#grid-view, #grid-preview {
+    border-top:1px #000 solid;
+    overflow:hidden;
+    clear:both;
+}
+
+.wireframe-edit #grid-view {
+    height:1200px;
+    border:0;
+}
+
+.wireframe-edit #grid-view .columns {
+    background:#fff;
+}
+
+.wireframe-edit #grid-view .spacing {
+    background:#cdf;
+    height:1200px;
+}
+
+
+#grid-preview div,
+#grid-view div {
+    height:40px;
+    float:left;
+}
+
+#grid-preview .columns,
+#grid-view .columns {
+    background:#ccc;
+}
+
+#id_grid_width {
+    /*background:#ccc;*/
+}
+
+/*#id_grid_spacing*/
+.spacing {
+    background:#777;
+    color:#fff;
+}
+
+/* rule */
+
+#rule {
+    margin-top:1em;
+}
+
+#rule h2 {
+    margin-bottom:-1em;
+}
+
+#rule div {
+    float:left;
+    text-align:right;
+    padding-right:4px;
+    padding-top:4px;
+    border-right:1px red solid;
+    height:18px;
+    border-bottom:3px #6f3 solid;
+}
+
+#rule .warning {
+    border-bottom:3px #f66 solid;
+}
+
+/* wireframe */
+
+#menu {
+    background-color:#fff;
+    margin-bottom:10px;
+}
+
+#toolbox {
+
+}
+
+#toolbox textarea {
+    width:97%;
+    min-height:150px;
+}
+
+#editor {
+    position:relative;
+    border:1px #999 dashed;
+    width:960px;
+}
+
+#properties {
+    border:1px #eee solid;
+    padding:1em;
+}
+
+#properties label{
+    float:left;
+    width:6em;
+    padding: 0.5em 0;
+}
+
+#properties p{
+    overflow:hidden;
+}
+
+#properties input {
+
+}
+
+.block {
+    /*border: 1px solid #bbb;*/
+    /*border-bottom: 1px solid #aaa;
+    border-top: 1px solid #aaa;*/
+    position: absolute;
+    min-height:20px;
+    /*overflow:hidden;*/
+    background:#eee;
+    padding:0px;
+    border-collapse:collapse;
+    cursor:move;
+}
+
+.block .content {
+    display:none;
+}
+
+.selected {
+    background:#abf;
+}
+
+.block .content {
+    padding:4px;
+}
+
+.block .resize {
+    display:none;
+}
+
+.block:hover .resize {
+    display:block;
+}
+
+.resize {
+    display:block;
+    width:20px;
+    height:20px;
+    background:#ff2;
+    cursor:move;
+}
+
+.resize {
+    position:absolute;
+    right:0;
+    bottom:0;
+    border-top:1px #999 solid;
+    border-left:1px #999 solid;
+}
+
+.ui-selecting {
+  background-color: #eee;
+}
+.ui-selected {
+  background-color: #E6F7D4;
+}
+
+.co -title {
+    background:#bfa;
+    padding:5px;
+}
+
+.block-title iframe, .block-title textarea {
+    width:60%;
+    background:#fff;
+    font-family: Arial;
+    font-size: 12px;
+    height:40px;
+}
+
+.block-title input {
+    width:35%;
+    float:right;
+}
+
+.rte-toolbar p {
+    margin:0;
+}

@@ -1,0 +1,116 @@
+{% extends "wireframes/base.html" %}
+{% load wire_tags i18n %}
+{% block extra_css %}
+{% for c in components %}{% if c.css %}{{ c.css_out }}{% endif %}{% endfor %}
+{% endblock %}
+
+{% block header %}
+<h1>Wireframe</h1>
+<p>{{ wireframe.name }}</strong></p>
+{% endblock %}
+
+{% block body_class %}wireframe-edit{% endblock %}
+
+{% block content %}
+<div id="menu">
+    <label>
+    <select id="create-component" name="create-component">
+        <option value="0">{% trans "Create" %}</option>
+        {% for c in components %}
+        <option value="{{ c.id }}">{{ c.name }}</option>
+        {% endfor %}
+    </select>
+    </label>
+
+    <input type="button" value="Undo" id="undo" />
+    <input type="button" value="Redo" id="redo" />
+    <input type="button" value="Save" id="save" />
+    
+    <span id="message"></span>
+</div>
+    <div id="toolbox" style="position:absolute;left:{{ wireframe.total_width|add:50 }}px">
+        <h2 id="properties-title"></h2>
+        <div id="properties"></div>
+    </div>
+
+    <div id="editor" style="width:{{ wireframe.total_width }}px">
+    {% if last_revision %}
+        {{ last_revision.content|safe }}
+    {% else %}
+        <div id="grid-view"></div>
+    {% endif %}
+    </div>
+</div>
+
+
+<script type="text/javascript">
+nb_columns = {{ wireframe.grid_columns }};
+columns_width = {{ wireframe.grid_width }};
+columns_spacing = {{ wireframe.grid_spacing }};
+$(document).ready( function() {
+    $('#editor').easydrag({
+        grid_width:{{ wireframe.grid_width }},
+        grid_spacing:{{ wireframe.grid_spacing }}
+    });
+});
+
+$('#save').click( function(event) {
+    $.post(
+        "{% url wireframes-save wireframe.id %}",
+        {'content':$('#editor').html()},
+        function(data){
+            $("#message").text(data).show().fadeOut(3000);
+        }
+    );
+});
+
+function get_component_by_id(id) {
+
+    var components = {};
+    {% for c in components %}
+    var c = {{ c.javascript|safe }};
+    c.default_content = "{{ c.default_content|escape_javascript_string }}";
+    c.name = "{{ c.name }}";
+    components["component-{{ c.id }}"] = c;
+    {% endfor %}
+
+    if(components["component-"+id]) {
+        return components["component-"+id]
+    }
+
+    return {};
+};
+
+function create_component(t, l, id, content, title, w) {
+
+    var c = get_component_by_id(id);
+    if(!w)
+        w = 200;
+    if(!title)
+        title = c.name;
+    if(!t)
+        t=0;
+    if(!l)
+        l=0;
+    
+    var block = '<div class="block snap-to-grid component-'+ id +'" \
+        style="width: '+w+'px; top: '+t+'px; left:'+l+'px;"" title="'+ title +'">\
+        <div class="resize">r</div>\
+        <div class="content">' + c.default_content + '</div>\
+        <div class="display">' + c.display(c.default_content) + '</div>\
+    </div>'
+    $('#editor').append($(block));
+};
+
+$('#create-component').change(function() {
+    var index = this.selectedIndex;
+    if( index!=0 ) {
+        var value = this.options[index].value;
+        create_component(0, 0, value);
+        this.selectedIndex = 0;
+    }
+});
+
+</script>
+
+{% endblock %}
