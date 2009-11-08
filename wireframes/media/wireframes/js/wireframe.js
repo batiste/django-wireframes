@@ -20,7 +20,7 @@ $(document).ready( function() {
     zindex = 5;
 
 
-    $(window).keydown(function(e) {
+    $('#editor').keydown(function(e) {
         var step = (columns_width + columns_spacing) / 10;
         // delete key
         if(e.keyCode==46 || e.keyCode==8) {
@@ -86,7 +86,7 @@ $(document).ready( function() {
 
         selected_block = el;
         $(el).addClass("selected");
-        $(el).focus();
+        $('#editor-focus').focus();
 
         $('#properties').empty();
         var on_top = $('<input type="button" value="On top (Ctrl+⇧)" id="on-top" />');

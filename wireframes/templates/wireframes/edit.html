@@ -34,6 +34,7 @@
     </div>
 
     <div id="editor" style="width:{{ wireframe.total_width }}px">
+    <input type="text" id="editor-focus" style="position:absolute;left:-500px;">
     {% if last_revision %}
         {{ last_revision.content|safe }}
     {% else %}
