@@ -20,6 +20,60 @@ $(document).ready( function() {
     zindex = 5;
 
 
+    $(window).keydown(function(e) {
+        var step = (columns_width + columns_spacing) / 10;
+        // delete key
+        if(e.keyCode==46 || e.keyCode==8) {
+            var parent = $(selected_block).parents()[0];
+            var prev = $(selected_block).prev()[0]
+            $.commands.add_delete_command(selected_block, parent, prev);
+            $.commands.do_last_command();
+        }
+        // on top
+        if(e.keyCode==38 && e.ctrlKey) {
+            zindex ++;
+            $(selected_block).css('z-index', zindex);
+            return false;
+        };
+        // enlarge width
+        if(e.keyCode==39 && e.ctrlKey) {
+            var t = Math.max(0, parseInt($(selected_block).css('width')) + step);
+            $(selected_block).css('width', t + 'px');
+            return false;
+        }
+        // reduce width
+        if(e.keyCode==37 && e.ctrlKey) {
+            var t = Math.max(0, parseInt($(selected_block).css('width')) - step);
+            $(selected_block).css('width', t + 'px');
+            return false;
+        }
+        
+        // up
+        if(e.keyCode==38) {
+            var t = Math.max(0, parseInt($(selected_block).css('top')) - step);
+            $(selected_block).css('top', t + 'px');
+            return false;
+        }
+        //down
+        if(e.keyCode==40) {
+            var t = parseInt($(selected_block).css('top')) + step;
+            $(selected_block).css('top', t + 'px');
+            return false;
+        }
+        //left
+        if(e.keyCode==37) {
+            var t = Math.max(0, parseInt($(selected_block).css('left')) - step);
+            $(selected_block).css('left', t + 'px');
+            return false;
+        }
+        //right
+        if(e.keyCode==39) {
+            var t = parseInt($(selected_block).css('left')) + step;
+            $(selected_block).css('left', t + 'px');
+            return false;
+        }
+    });
+
     $('#editor').click(function(e) {
 
         var block = $(e.target).closest('.block');
@@ -32,9 +86,10 @@ $(document).ready( function() {
 
         selected_block = el;
         $(el).addClass("selected");
+        $(el).focus();
 
         $('#properties').empty();
-        var on_top = $('<input type="button" value="On top" id="on-top" />');
+        var on_top = $('<input type="button" value="On top (Ctrl+⇧)" id="on-top" />');
         $('#properties').append(on_top);
         on_top.click( function(event) {
             zindex ++;
