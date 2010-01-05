@@ -201,6 +201,7 @@ legend {
 }
 
 .block {
+    outline:1px solid #bbb;
     /*border: 1px solid #bbb;*/
     /*border-bottom: 1px solid #aaa;
     border-top: 1px solid #aaa;*/
@@ -211,6 +212,10 @@ legend {
     padding:0px;
     border-collapse:collapse;
     cursor:move;
+}
+
+.block:hover {
+    outline:3px solid #6b6;
 }
 
 .block .content {

@@ -86,15 +86,15 @@ $(function($){
 
         if(_width<50)
             _width=50;
-        if(_height<50)
-            _height=50;
+        if(_height<20)
+            _height=20;
 
         if($(currentElement).hasClass('snap-to-grid')) {
             _width = _width + offset_snap_grip(opts, _width);
         }
 
         currentElement.style['width'] = _width + 'px';
-        //currentElement.style['height'] = _height + 'px';
+        currentElement.style['height'] = _height + 'px';
     };
 
     // block cache
@@ -162,6 +162,8 @@ $(function($){
 
                     lastElemWidth  = parseInt(el.style['width'], 10);
                     lastElemHeight = parseInt(el.style['height'], 10);
+                    if(!lastElemHeight)
+                        lastElemHeight = $(el).height();
 
                     updateSize(e, opts);
                     e.preventDefault();
