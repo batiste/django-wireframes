@@ -1,0 +1,9 @@
+
+.css, .javascript, .default_content {
+    background:#eee;
+}
+
+iframe {
+    background:#fff;
+    width:90% !important;
+}

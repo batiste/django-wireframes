@@ -37,7 +37,6 @@ USE_I18N = True
 
 # Absolute path to the directory that holds media.
 WIREFRAME_MEDIA_ROOT = os.path.join(PROJECT_DIR, os.pardir, 'wireframes', 'media', 'wireframes')
-print WIREFRAME_MEDIA_ROOT
 ADMIN_MEDIA_ROOT = os.path.join(PROJECT_DIR, os.pardir, 'admin_media', '')
 MEDIA_URL = '/media/'
 ADMIN_MEDIA_PREFIX = '/admin_media/'
