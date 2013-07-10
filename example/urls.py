@@ -12,7 +12,7 @@ urlpatterns = patterns('',
     (r'^$', home),
     (r'^w/', include('wireframes.urls')),
     # Uncomment the next line to enable the admin:
-    (r'^admin/(.*)', admin.site.root),
+    url(r'^admin/', include(admin.site.urls))
 )
 
 if settings.DEBUG:

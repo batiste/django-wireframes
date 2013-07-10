@@ -57,7 +57,7 @@ $(document).ready( function() {
 
 $('#save').click( function(event) {
     $.post(
-        "{% url wireframes-save wireframe.id %}",
+        "{% url 'wireframes-save' wireframe.id %}",
         {'content':$('#editor').html()},
         function(data){
             $("#message").text(data).show().fadeOut(3000);
