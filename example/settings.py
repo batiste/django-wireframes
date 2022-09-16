@@ -45,9 +45,12 @@ USE_I18N = True
 
 # Absolute path to the directory that holds media.
 WIREFRAME_MEDIA_ROOT = os.path.join(PROJECT_DIR, os.pardir, 'wireframes', 'media', 'wireframes')
-ADMIN_MEDIA_ROOT = os.path.join(PROJECT_DIR, os.pardir, 'admin_media', '')
+ADMIN_MEDIA_ROOT = os.path.join(PROJECT_DIR, os.pardir, 'admin_media')
 MEDIA_URL = '/media/'
 ADMIN_MEDIA_PREFIX = '/admin_media/'
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(PROJECT_DIR, os.pardir, 'static')
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'p)vc32rphaob@!7nze8@6ih5c_@ygjc%@csf*6^+d^((+%$4p#'

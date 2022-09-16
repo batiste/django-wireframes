@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class Project(models.Model):
     """(Project description)"""
 
-    admin = models.ForeignKey(User, related_name='selfs_as_admin', null=True)
+    admin = models.ForeignKey(User, related_name='selfs_as_admin', null=True, on_delete=models.CASCADE)
     members = models.ManyToManyField(User, related_name='selfs_as_member')
 
     name = models.CharField(blank=False, max_length=255)
@@ -28,8 +28,8 @@ class Project(models.Model):
 class Wireframe(models.Model):
     """(Project description)"""
 
-    author = models.ForeignKey(User, null=True)
-    project = models.ForeignKey(Project, null=True)
+    author = models.ForeignKey(User, null=True, on_delete=models.DO_NOTHING)
+    project = models.ForeignKey(Project, null=True, on_delete=models.DO_NOTHING)
     name = models.CharField(blank=False, max_length=255)
     creation_date = models.DateTimeField(auto_now=True)
     #model = models.ForeignKey(Wireframe, null=True)
@@ -51,8 +51,8 @@ class Wireframe(models.Model):
 class Component(models.Model):
     """(Component description)"""
 
-    author = models.ForeignKey(User, null=True, blank=True)
-    project = models.ForeignKey(Project, null=True, blank=True)
+    author = models.ForeignKey(User, null=True, blank=True, on_delete=models.DO_NOTHING)
+    project = models.ForeignKey(Project, null=True, blank=True, on_delete=models.DO_NOTHING)
     name = models.CharField(blank=False, max_length=255)
     creation_date = models.DateTimeField(auto_now=True)
 
@@ -73,8 +73,8 @@ class Component(models.Model):
 
 class Revision(models.Model):
 
-    author = models.ForeignKey(User, null=True)
-    wireframe = models.ForeignKey(Wireframe)
+    author = models.ForeignKey(User, null=True, on_delete=models.DO_NOTHING)
+    wireframe = models.ForeignKey(Wireframe, on_delete=models.DO_NOTHING)
     creation_date = models.DateTimeField(auto_now=True)
     content = models.TextField()
 

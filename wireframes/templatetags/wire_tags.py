@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """Page CMS page_tags template tags"""
 from django import template
-from django.utils.safestring import SafeUnicode, mark_safe
 register = template.Library()
 
 @register.filter

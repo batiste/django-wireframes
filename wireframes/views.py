@@ -1,9 +1,8 @@
 from wireframes.models import Wireframe, Revision, Component, Project
 from wireframes.forms import CreateWireframeForm
 from django.http import HttpResponseRedirect, HttpResponse
-from django.core.urlresolvers import reverse
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.urls import reverse
+from django.shortcuts import render
 
 def home(request):
     if request.POST:
@@ -14,8 +13,7 @@ def home(request):
                     args=[wireframe.id]))
     else:
         form = CreateWireframeForm()
-    return render_to_response('wireframes/home.html',
-        RequestContext(request, locals()))
+    return render(request, 'wireframes/home.html', locals())
 
 def create(request, project_id):
     project = Project.objects.get(pk=int(project_id))
@@ -29,8 +27,7 @@ def create(request, project_id):
                 "wireframe_id":int(wireframe.id)}))
     else:
         form = CreateWireframeForm(instance=wireframe)
-    return render_to_response('wireframes/create.html',
-        RequestContext(request, locals()))
+    return render(request, 'wireframes/create.html', locals())
 
 def edit(request, wireframe_id):
     wireframe = Wireframe.objects.get(pk=int(wireframe_id))
@@ -40,8 +37,7 @@ def edit(request, wireframe_id):
     except Revision.DoesNotExist:
         pass
     components = Component.objects.all()
-    return render_to_response('wireframes/edit.html',
-        RequestContext(request, locals()))
+    return render(request, 'wireframes/edit.html', locals())
 
 def save(request, wireframe_id):
     wireframe = Wireframe.objects.get(pk=int(wireframe_id))
